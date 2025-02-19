@@ -21,8 +21,8 @@
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     </head>
-    <body class="font-sans antialiased dark:bg-black dark:text-white/50">
-        <div class="bg-gray-50 text-black/50 dark:bg-black dark:text-white/50"> 
+    <body class="font-sans antialiased dark:text-white/50">
+        <div class="bg-gray-50 text-black/50 dark:text-white/50"> 
             <div class="relative min-h-screen flex flex-col items-center justify-center selection:bg-[#FF2D20] selection:text-white">
                 <!-- Start Content-->
                     @yield('content')

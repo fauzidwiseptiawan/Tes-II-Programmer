@@ -53,22 +53,13 @@ class DataController extends Controller
     
         // Filtering berdasarkan Attachment (bernilai ada/tidak ada)
         if ($request->has('attachment')) {
-            if ($request->input('attachment') === 'yes') {
-                $data = $data->whereNotNull('attachment')->values(); // Ada nilai
-            } elseif ($request->input('attachment') === 'no') {
-                $data = $data->whereNull('attachment')->values(); // Tidak ada nilai
-            }
+            $data = $data->where('attachment', (int) $request->input('attachment'))->values();
         }
-    
-        // Filtering berdasarkan Discount (bernilai ada/tidak ada)
+ 
         if ($request->has('discount')) {
-            if ($request->input('discount') === 'yes') {
-                $data = $data->whereNotNull('discount')->values(); // Ada nilai
-            } elseif ($request->input('discount') === 'no') {
-                $data = $data->whereNull('discount')->values(); // Tidak ada nilai
-            }
+            $data = $data->where('attachment', (int) $request->input('discount'))->values();
         }
-    
+        
         // Sorting jika ada
         if ($request->has('sort_by')) {
             $sortBy = $request->input('sort_by');

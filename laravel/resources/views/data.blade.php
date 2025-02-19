@@ -2,85 +2,92 @@
 @section('title', 'Dashboard')
 @section('content')
 <div class="container">
-    <h2 class="text-lg text-black font-bold mb-2">Data Sorting & Filtering</h2>
-    <div class="row">
-        <div class="col-md-2">
-            <select id="sort_by" class="form-control">
-                <option value="">Sort By</option>
-                <option value="name">Name</option>
-                <option value="discount">Discount</option>
-            </select>
-        </div>
-        <div class="col-md-2">
-            <select id="order" class="form-control">
-                <option value="asc">Ascending</option>
-                <option value="desc">Descending</option>
-            </select>
-        </div>
-        <div class="col-md-2">
-            <select id="type_filter" class="form-control">
-                <option value="">Filter Type</option>
-                <option value="1">Food & Beverage</option>
-                <option value="2">Pharmaceulicals</option>
-                <option value="3">Government</option>
-                <option value="4">Traditional Medicine & Suplement</option>
-                <option value="13">Beauty, Cosmetics & Personal Care</option>
-                <option value="14">Media RTU</option>
-                <option value="15">K3L Products</option>
-                <option value="16">ALKES & PKRT</option>
-                <option value="17">Feed, Pesticides & PSAT</option>
-                <option value="18">Other</option>
-                <option value="19">Research / Academic Purpose</option>
-                <option value="20">Dioxine Udara</option>
-            </select>
-        </div>
-        <div class="col-md-2">
-            <select id="discount_filter" class="form-control">
-                <option value="">Filter Discount</option>
-                <option value="1">Ada</option>
-                <option value="0">Tidak</option>
-            </select>
-        </div>
-        <div class="col-md-2">
-            <select id="attachment_filter" class="form-control">
-                <option value="">Filter Attachment</option>
-                <option value="1">Ada</option>
-                <option value="0">Tidak</option>
-            </select>
-        </div>
-        <div class="col-md-2">
-            <select id="status_filter" class="form-control">
-                <option value="">Filter Status</option>
-                <option value="1">Approved</option>
-                <option value="0">Unapproved</option>
-            </select>
-        </div>
-        <div class="col-md-2">
-            <button id="applyFilter" class="btn btn-primary">Apply</button>
+    <div class="card">
+        <div class="card-body">
+            <h2 class="text-lg font-bold mb-2">Data Sorting & Filtering</h2>
+            <div class="row">
+                <div class="col-md-2">
+                    <select id="sort_by" class="form-control">
+                        <option value="">Sort By</option>
+                        <option value="name">Name</option>
+                        <option value="discount">Discount</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select id="order" class="form-control">
+                        <option value="asc">Ascending</option>
+                        <option value="desc">Descending</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select id="type_filter" class="form-control">
+                        <option value="">Filter Type</option>
+                        <option value="1">Food & Beverage</option>
+                        <option value="2">Pharmaceulicals</option>
+                        <option value="3">Government</option>
+                        <option value="4">Traditional Medicine & Suplement</option>
+                        <option value="13">Beauty, Cosmetics & Personal Care</option>
+                        <option value="14">Media RTU</option>
+                        <option value="15">K3L Products</option>
+                        <option value="16">ALKES & PKRT</option>
+                        <option value="17">Feed, Pesticides & PSAT</option>
+                        <option value="18">Other</option>
+                        <option value="19">Research / Academic Purpose</option>
+                        <option value="20">Dioxine Udara</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select id="discount_filter" class="form-control">
+                        <option value="">Filter Discount</option>
+                        <option value="1">Ada</option>
+                        <option value="0">Tidak</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select id="attachment_filter" class="form-control">
+                        <option value="">Filter Attachment</option>
+                        <option value="1">Ada</option>
+                        <option value="0">Tidak</option>
+                    </select>
+                </div>
+                <div class="col-md-2">
+                    <select id="status_filter" class="form-control">
+                        <option value="">Filter Status</option>
+                        <option value="1">Approved</option>
+                        <option value="0">Unapproved</option>
+                    </select>
+                </div>
+                <!-- <div class="col-md-2">
+                    <button id="applyFilter" class="btn btn-primary">Apply</button>
+                </div> -->
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered mt-3" id="data-table">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Type</th>
+                            <th>Price</th>
+                            <th>Discount</th>
+                            <th>Attachment</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+            <nav>
+                <ul class="pagination justify-content-center"></ul>
+            </nav>
         </div>
     </div>
-    <div class="table-responsive">
-        <table class="table table-bordered mt-3" id="data-table">
-            <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>Type</th>
-                    <th>Price</th>
-                    <th>Discount</th>
-                    <th>Attachment</th>
-                    <th>Status</th>
-                </tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-    </div>
-    <nav>
-        <ul class="pagination justify-content-center"></ul>
-    </nav>
 </div>
 @endsection
 
 @push('page-scripts')
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
 let timeout = null; // Untuk debounce
 
@@ -154,7 +161,7 @@ function renderTable(data) {
                     toast: true,
                     position: 'top-end',
                     icon: 'info',
-                    title: `Discount Rp${item.discount} untuk ${item.title}`,
+                    title: `Discount ${new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0  }).format(item.discount)} untuk ${item.title}`,
                     showConfirmButton: false,
                     timer: 3000
                 });
@@ -163,14 +170,14 @@ function renderTable(data) {
                     toast: true,
                     position: 'top-end',
                     icon: 'warning',
-                    title: `Approval Needed: Discount Rp${item.discount} untuk ${item.title}`,
+                    title: `Approval Needed: Discount ${new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0  }).format(item.discount)} untuk ${item.title}`,
                     showConfirmButton: false,
                     timer: 3000
                 });
             }
 
             let discountBadge = item.discount > 0 
-                ? `<span class="badge bg-success">Rp${item.discount}</span>` 
+                ? `<span class="badge bg-success">${new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0  }).format(item.discount)}</span>` 
                 : `<span class="badge bg-secondary">Tidak Ada</span>`;
 
             let approvalText = item.discount >= 1000000 
@@ -181,7 +188,7 @@ function renderTable(data) {
                 <tr>
                     <td>${item.name}</td>
                     <td>${item.title}</td>
-                    <td>${item.price}</td>
+                    <td>${new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0, maximumFractionDigits: 0  }).format(item.price)}</td>
                     <td>${discountBadge} ${approvalText}</td>
                     <td>${attachmentText}</td>
                     <td>${statusText}</td>
@@ -189,7 +196,7 @@ function renderTable(data) {
             `);
         });
     } else {
-        tableBody.append(`<tr><td colspan="4" class="text-center">No data available</td></tr>`);
+        tableBody.append(`<tr><td colspan="6" class="text-center">No data available</td></tr>`);
     }
 }
 
