@@ -14,10 +14,10 @@ class DataController extends Controller
         $response = Http::get("https://bsby.siglab.co.id/api/test-programmer", [
             'email' => $email
         ])->json();
-
+    
         // Ambil data dari "results"
         $data = collect($response['results'] ?? []);
-
+    
         // Mapping Type ke Title
         $typeReference = [
             1 => 'Food & Beverage',
@@ -33,39 +33,54 @@ class DataController extends Controller
             19 => 'Research / Academic Purpose',
             20 => 'Dioxine Udara'
         ];
-
+    
+        // Tambahkan Title berdasarkan Type
         $data = $data->map(function ($item) use ($typeReference) {
             $item['title'] = $typeReference[$item['type']] ?? 'Unknown';
             return $item;
         });
-
-        // Filtering
+    
+        // Filtering berdasarkan Type Reference (hanya bisa pilih 1, default semua data tampil)
+        if ($request->filled('type')) { // Gunakan filled() agar tidak memproses null atau kosong
+            $typeFilter = (int) $request->input('type'); // Konversi langsung ke integer
+            $data = $data->where('type', $typeFilter)->values();
+        }
+    
+        // Filtering berdasarkan Status
         if ($request->has('status')) {
             $data = $data->where('status', (int) $request->input('status'))->values();
         }
+    
+        // Filtering berdasarkan Attachment (bernilai ada/tidak ada)
         if ($request->has('attachment')) {
-            $data = $data->where('attachment', (int) $request->input('attachment'))->values();
-        }
-        if ($request->has('discount')) {
-            if ($request->input('discount') == 'yes') {
-                $data = $data->where('discount', '>', 0)->values();
-            } else {
-                $data = $data->where('discount', 0)->values();
+            if ($request->input('attachment') === 'yes') {
+                $data = $data->whereNotNull('attachment')->values(); // Ada nilai
+            } elseif ($request->input('attachment') === 'no') {
+                $data = $data->whereNull('attachment')->values(); // Tidak ada nilai
             }
         }
-
+    
+        // Filtering berdasarkan Discount (bernilai ada/tidak ada)
+        if ($request->has('discount')) {
+            if ($request->input('discount') === 'yes') {
+                $data = $data->whereNotNull('discount')->values(); // Ada nilai
+            } elseif ($request->input('discount') === 'no') {
+                $data = $data->whereNull('discount')->values(); // Tidak ada nilai
+            }
+        }
+    
         // Sorting jika ada
         if ($request->has('sort_by')) {
             $sortBy = $request->input('sort_by');
             $order = $request->input('order') === 'desc';
             $data = $data->sortBy($sortBy, SORT_REGULAR, $order)->values();
         }
-
+    
         // PAGINATION
         $perPage = 10;
-        $currentPage = $request->input('page', 1); // Ambil page dari request
+        $currentPage = $request->input('page', 1);
         $currentItems = $data->slice(($currentPage - 1) * $perPage, $perPage)->values();
-
+    
         $pagination = new LengthAwarePaginator(
             $currentItems,
             $data->count(),
@@ -73,7 +88,8 @@ class DataController extends Controller
             $currentPage,
             ['path' => url('/data')]
         );
-
+    
         return response()->json($pagination);
     }
+    
 }
